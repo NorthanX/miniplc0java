@@ -14,6 +14,7 @@ import java.util.Scanner;
 
 import miniplc0java.analyser.Analyser;
 import miniplc0java.error.CompileError;
+import miniplc0java.error.ExpectedTokenError;
 import miniplc0java.instruction.Instruction;
 import miniplc0java.tokenizer.StringIter;
 import miniplc0java.tokenizer.Token;
@@ -27,103 +28,111 @@ import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
 
+import static java.lang.System.exit;
 import static miniplc0java.analyser.Analyser.toBytes;
 
 public class App {
-    public static void main(String[] args) throws CompileError {
-        ArgumentParser argparse = buildArgparse();
-        Namespace result;
-        try {
-            result = argparse.parseArgs(args);
-        } catch (ArgumentParserException e1) {
-            argparse.handleError(e1);
-            return;
+    public static void main(String[] args) throws CompileError, FileNotFoundException {
+
+          try {
+              System.out.println(args[0]);
+              throw new Exception();
+          }catch (Exception e) {
+              exit(1);
+          }
+//        ArgumentParser argparse = buildArgparse();
+//        Namespace result;
+//        try {
+//            result = argparse.parseArgs(args);
+//        } catch (ArgumentParserException e1) {
+//            argparse.handleError(e1);
+//            return;
+//        }
+//
+//        String inputFileName = result.getString("input");
+//        String outputFileName = result.getString("output");
+//
+//        InputStream input;
+//        if (inputFileName.equals("-")) {
+//            input = System.in;
+//        } else {
+//            try {
+//                input = new FileInputStream(inputFileName);
+//            } catch (FileNotFoundException e) {
+//                //Cannot find input file
+//                e.printStackTrace();
+//                exit(0);
+//                return;
+//            }
+//        }
+//
+//        PrintStream output;
+//        if (outputFileName.equals("-")) {
+//            output = System.out;
+//        } else {
+//            try {
+//                output = new PrintStream(new FileOutputStream(outputFileName));
+//            } catch (FileNotFoundException e) {
+//                //Cannot open output file
+//                e.printStackTrace();
+//                exit(0);
+//                return;
+//            }
+//        }
+//
+//        Scanner scanner;
+//        scanner = new Scanner(input);
+//        StringIter iter = new StringIter(scanner);
+//        Tokenizer tokenizer = tokenize(iter);
+//
+//        if (result.getBoolean("tokenize")) {
+//            // tokenize
+//            ArrayList<Token> tokens = new ArrayList<Token>();
+//            try {
+//                while (true) {
+//                    Token token = tokenizer.nextToken();
+//                    System.out.println(token.toString() + token.getTokenType());
+//                    if (token.getTokenType().equals(TokenType.EOF)) {
+//                        break;
+//                    }
+//                    tokens.add(token);
+//                }
+//            } catch (Exception e) {
+//                // 遇到错误不输出，直接退出
+//                System.err.println(e);
+//                exit(1);
+//                return;
+//            }
+//            for (Token token : tokens) {
+//                output.println(token.toString());
+//            }
+//        } else if (result.getBoolean("analyse")) {
+//            // analyze
+//            var analyzer = new Analyser(tokenizer);
+//            List<Instruction> instructions;
+//            try {
+//                analyzer.analyse();
+//                if (Analyser.o != 0) {
+//                    output.write(analyzer.b);
+//                    exit(0);
+//                }
+//            } catch (Exception e) {
+//                System.err.println(e);
+//                exit(1);
+//                return;
+//            }
+//            try {
+//                output.write(toBytes("72303b3e00000001"));
+//                output.write(toBytes(String.format("%08x", Analyser.globalSymbol.getSize())));
+//                output.write(toBytes(Analyser.globalSymbol.output()));
+//                output.write(toBytes(Analyser.printFuncOutputs()));
+//            } catch (Exception e) {
+//            }
+//        } else {
+//            System.err.println("Please specify either '--analyse' or '--tokenize'.");
+//            exit(3);
         }
 
-        String inputFileName = result.getString("input");
-        String outputFileName = result.getString("output");
-
-        InputStream input;
-        if (inputFileName.equals("-")) {
-            input = System.in;
-        } else {
-            try {
-                input = new FileInputStream(inputFileName);
-            } catch (FileNotFoundException e) {
-                System.err.println("Cannot find input file.");
-                e.printStackTrace();
-                System.exit(0);
-                return;
-            }
-        }
-
-        PrintStream output;
-        if (outputFileName.equals("-")) {
-            output = System.out;
-        } else {
-            try {
-                output = new PrintStream(new FileOutputStream(outputFileName));
-            } catch (FileNotFoundException e) {
-                System.err.println("Cannot open output file.");
-                e.printStackTrace();
-                System.exit(0);
-                return;
-            }
-        }
-
-        Scanner scanner;
-        scanner = new Scanner(input);
-        var iter = new StringIter(scanner);
-        var tokenizer = tokenize(iter);
-
-        if (result.getBoolean("tokenize")) {
-            // tokenize
-            var tokens = new ArrayList<Token>();
-            try {
-                while (true) {
-                    var token = tokenizer.nextToken();
-                    System.out.println(token.toString() + token.getTokenType());
-                    if (token.getTokenType().equals(TokenType.EOF)) {
-                        break;
-                    }
-                    tokens.add(token);
-                }
-            } catch (Exception e) {
-                // 遇到错误不输出，直接退出
-                System.err.println(e);
-                System.exit(1);
-                return;
-            }
-            for (Token token : tokens) {
-                output.println(token.toString());
-            }
-        } else if (result.getBoolean("analyse")) {
-            // analyze
-            var analyzer = new Analyser(tokenizer);
-            List<Instruction> instructions;
-            try {
-                analyzer.analyse();
-                if (Analyser.o != 0) {
-                    output.write(analyzer.b);
-                    System.exit(0);
-                }
-            } catch (Exception e) {
-                System.err.println(e);
-                System.exit(1);
-                return;
-            }
-            try {
-                output.write(toBytes("72303b3e00000001"));
-                output.write(toBytes(String.format("%08x", Analyser.globalSymbol.getSize())));
-                output.write(toBytes(Analyser.globalSymbol.output()));
-                output.write(toBytes(Analyser.printFuncOutputs()));
-            } catch (Exception e) {
-            }
-        } else {
-            System.err.println("Please specify either '--analyse' or '--tokenize'.");
-            System.exit(3);
-        }
-    }
 
 
 

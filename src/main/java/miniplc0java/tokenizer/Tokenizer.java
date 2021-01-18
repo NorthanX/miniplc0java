@@ -87,37 +87,25 @@ public class Tokenizer {
     private Token lexStringLiteral() throws TokenizeError {
         StringBuilder stringBuilder = new StringBuilder();
         Pos start = it.currentPos();
+        int limit=20000;
         it.nextChar();
         while(!it.isEOF()) {
-            char peek = it.peekChar();
-            if (peek == '\\') {
+            char a = it.peekChar();
+            if (a == '\\') {
 //                stringBuilder.append(it.nextChar());
                 it.nextChar();
-                peek = it.peekChar();
-                switch (peek) {
-                    case '\'':
-                        stringBuilder.append('\'');
-                        break;
-                    case '\"':
-                        stringBuilder.append('\"');
-                        break;
-                    case '\\':
-                        stringBuilder.append('\\');
-                        break;
-                    case 'n':
-                        stringBuilder.append('\n');
-                        break;
-                    case 't':
-                        stringBuilder.append('\t');
-                        break;
-                    case 'r':
-                        stringBuilder.append('\r');
-                        break;
-                    default:
-                        throw new TokenizeError(ErrorCode.InvalidStringLiteral ,it.currentPos());
+                a = it.peekChar();
+                switch (a) {
+                    case '\'' -> stringBuilder.append('\'');
+                    case '\"' -> stringBuilder.append('\"');
+                    case '\\' -> stringBuilder.append('\\');
+                    case 'n' -> stringBuilder.append('\n');
+                    case 't' -> stringBuilder.append('\t');
+                    case 'r' -> stringBuilder.append('\r');
+                    default -> throw new TokenizeError(ErrorCode.InvalidStringLiteral, it.currentPos());
                 }
-                it.nextChar();
-            } else if (peek == '\"') {
+                a = it.nextChar();
+            } else if (a == '\"') {
                 it.nextChar();
                 break;
             } else {
