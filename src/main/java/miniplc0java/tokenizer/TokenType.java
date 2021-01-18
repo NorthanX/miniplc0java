@@ -1,100 +1,231 @@
 package miniplc0java.tokenizer;
 
 public enum TokenType {
-    //关键字
-    //    FN_KW     -> 'fn'
+    nop,
     FN_KW,
-    //    LET_KW    -> 'let'
     LET_KW,
-    //    CONST_KW  -> 'const'
     CONST_KW,
-    //    AS_KW     -> 'as'
     AS_KW,
-    //    WHILE_KW  -> 'while'
     WHILE_KW,
-    //    IF_KW     -> 'if'
     IF_KW,
-    //    ELSE_KW   -> 'else'
     ELSE_KW,
-    //    RETURN_KW -> 'return'
     RETURN_KW,
-
-    // 这两个是扩展 c0 的
-    //    BREAK_KW  -> 'break'
     BREAK_KW,
-    //    CONTINUE_KW -> 'continue'
     CONTINUE_KW,
 
-    //字面量
-    //    digit -> [0-9]
-    digit,
-    //    UINT_LITERAL -> digit+
     UINT_LITERAL,
-    //    escape_sequence -> '\' [\\"'nrt]
-    escape_sequence,
-    //    string_regular_char -> [^"\\]
-    string_regular_char,
-    //    STRING_LITERAL -> '"' (string_regular_char | escape_sequence)* '"'
     STRING_LITERAL,
-
-    // 扩展 c0
-    //    DOUBLE_LITERAL -> digit+ '.' digit+ ([eE] [+-]? digit+)?
     DOUBLE_LITERAL,
-    //    char_regular_char -> [^'\\]
-    char_regular_char,
-    //    CHAR_LITERAL -> '\'' (char_regular_char | escape_sequence) '\''
     CHAR_LITERAL,
 
-    //标识符
-    //IDENT -> [_a-zA-Z] [_a-zA-Z0-9]*
     IDENT,
 
-    //运算符
-    //PLUS      -> '+'
-    PLUS,
-    //MINUS     -> '-'
-    MINUS,
-    //MUL       -> '*'
-    MUL,
-    //DIV       -> '/'
-    DIV,
-    //ASSIGN    -> '='
-    ASSIGN,
-    //EQ        -> '=='
-    EQ,
-    //NEQ       -> '!='
-    NEQ,
-    //LT        -> '<'
-    LT,
-    //GT        -> '>'
-    GT,
-    //LE        -> '<='
-    LE,
-    //GE        -> '>='
-    GE,
-    //L_PAREN   -> '('
-    L_PAREN,
-    //R_PAREN   -> ')'
-    R_PAREN,
-    //L_BRACE   -> '{'
-    L_BRACE,
-    //R_BRACE   -> '}'
-    R_BRACE,
-    //ARROW     -> '->'
-    ARROW,
-    //COMMA     -> ','
-    COMMA,
-    //COLON     -> ':'
-    COLON,
-    //SEMICOLON -> ';'
+    PLUS     ,
+    MINUS    ,
+    MUL      ,
+    DIV      ,
+    ASSIGN   ,
+    EQ       ,
+    NEQ      ,
+    LT       ,
+    GT       ,
+    LE       ,
+    GE       ,
+    L_PAREN  ,
+    R_PAREN  ,
+    L_BRACE  ,
+    R_BRACE  ,
+    ARROW    ,
+    COMMA    ,
+    COLON    ,
     SEMICOLON,
 
-    //注释
-    //COMMENT -> '//' regex(.*) '\n'
     COMMENT,
 
-    //空
-    None,
-    //EOF
     EOF;
+
+    @Override
+    public String toString() {
+        switch (this) {
+            case nop:
+                return "NullToken";
+            case FN_KW:
+                return "fn";
+            case LET_KW:
+                return "let";
+            case CONST_KW:
+                return "const";
+            case AS_KW:
+                return "as";
+            case WHILE_KW:
+                return "while";
+            case IF_KW:
+                return "if";
+            case ELSE_KW:
+                return "else";
+            case RETURN_KW:
+                return "return";
+            case BREAK_KW:
+                return "break";
+            case CONTINUE_KW:
+                return "continue";
+            case PLUS:
+                return "+";
+            case MINUS:
+                return "-";
+            case IDENT:
+                return "ident";
+            case UINT_LITERAL:
+                return "uint_literal";
+            case STRING_LITERAL:
+                return "string_literal";
+//            case TYPE:
+//                return "type";
+            case MUL:
+                return "*";
+            case DIV:
+                return "/";
+            /** == */
+            case EQ:
+                return "==";
+            /** != */
+            case NEQ://20
+                return "!=";
+            /** < */
+            case LT:
+                return "<";
+            /** > */
+            case GT:
+                return ">";
+            /** <= */
+            case LE:
+                return "<=";
+            /** >= */
+            case GE://24
+                return ">=";
+            /** = */
+            case ASSIGN:
+                return "=";
+            /** 左括号 */
+            case L_PAREN:
+                return "(";
+            /** 右括号 */
+            case R_PAREN:
+                return ")";
+            /** 左花括号 */
+            case L_BRACE:
+                return "{";
+            /** 右花括号 */
+            case R_BRACE:
+                return "}";
+            /** -> */
+            case ARROW:
+                return "->";
+            /** , */
+            case COMMA:
+                return ",";
+            /** : */
+            case COLON:
+                return ":";
+//            /** int */
+//            case INT:
+//                return "int";
+//            /** void */
+//            case VOID:
+//                return "void";
+//            case STRING:
+//                return "string";
+//            case DOUBLE:
+//                return "double";
+            /** 分号 */
+            case SEMICOLON:
+                return ";";
+            case DOUBLE_LITERAL:
+                return "double";
+            case EOF:
+                return "EOF";
+            default:
+                return "InvalidToken";
+        }
+    }
+
+//
+//
+//
+//    /** 空 */
+//    None,
+//    /** 无符号整数 */
+//    Uint,
+//    /** 标识符 */
+//    Ident,
+//    /** Begin */
+//    Begin,
+//    /** End */
+//    End,
+//    /** Var */
+//    Var,
+//    /** Const */
+//    Const,
+//    /** Print */
+//    Print,
+//    /** 加号 */
+//    Plus,
+//    /** 减号 */
+//    Minus,
+//    /** 乘号 */
+//    Mult,
+//    /** 除号 */
+//    Div,
+//    /** 等号 */
+//    Equal,
+//    /** 分号 */
+//    Semicolon,
+//    /** 左括号 */
+//    LParen,
+//    /** 右括号 */
+//    RParen,
+//    /** 文件尾 */
+//    EOF;
+
+//    @Override
+//    public String toString() {
+//        switch (this) {
+//            case None:
+//                return "NullToken";
+//            case Begin:
+//                return "Begin";
+//            case Const:
+//                return "Const";
+//            case Div:
+//                return "DivisionSign";
+//            case EOF:
+//                return "EOF";
+//            case End:
+//                return "End";
+//            case Equal:
+//                return "EqualSign";
+//            case Ident:
+//                return "Identifier";
+//            case LParen:
+//                return "LeftBracket";
+//            case Minus:
+//                return "MinusSign";
+//            case Mult:
+//                return "MultiplicationSign";
+//            case Plus:
+//                return "PlusSign";
+//            case Print:
+//                return "Print";
+//            case RParen:
+//                return "RightBracket";
+//            case Semicolon:
+//                return "Semicolon";
+//            case Uint:
+//                return "UnsignedInteger";
+//            case Var:
+//                return "Var";
+//            default:
+//                return "InvalidToken";
+//        }
+//    }
 }
