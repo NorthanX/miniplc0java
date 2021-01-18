@@ -1,4 +1,4 @@
-package util;
+package miniplc0java.util;
 
 
 public class Position {

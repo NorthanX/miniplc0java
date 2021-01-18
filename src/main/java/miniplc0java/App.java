@@ -1,9 +1,9 @@
 package miniplc0java;
 
-import analyser.Analyser;
-import function.Function;
-import global.Global;
-import output.Output;
+import miniplc0java.analyser.Analyser;
+import miniplc0java.function.Function;
+import miniplc0java.global.Global;
+import miniplc0java.output.Output;
 import miniplc0java.tokenizer.StringIterator;
 import miniplc0java.tokenizer.Tokenizer;
 

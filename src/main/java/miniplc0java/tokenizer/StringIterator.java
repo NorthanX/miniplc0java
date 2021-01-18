@@ -1,6 +1,6 @@
 package miniplc0java.tokenizer;
 
-import util.Position;
+import miniplc0java.util.Position;
 
 import java.util.ArrayList;
 import java.util.Optional;

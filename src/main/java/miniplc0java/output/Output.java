@@ -1,9 +1,9 @@
 package miniplc0java.output;
 
-import function.Function;
-import global.Global;
-import instruction.Instruction;
-import operate.Operation;
+import miniplc0java.function.Function;
+import miniplc0java.global.Global;
+import miniplc0java.instruction.Instruction;
+import miniplc0java.operate.Operation;
 
 import java.util.ArrayList;
 import java.util.List;

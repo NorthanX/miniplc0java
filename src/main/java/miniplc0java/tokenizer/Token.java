@@ -1,6 +1,6 @@
 package miniplc0java.tokenizer;
 
-import util.Position;
+import miniplc0java.util.Position;
 
 public class Token {
     private miniplc0java.tokenizer.TokenType tokenType;
